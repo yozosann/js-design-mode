@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="execute">execute</button>
+  <button id="undo">undo</button>
+  <script>
+    var Tv = {
+      open: function () {
+        console.log('open');
+      },
+      close: function () {
+        console.log('close');
+      }
+    }
+
+    var createCommand = function (receiver) {
+      var execute = function () {
+        receiver.open();
+      },
+        undo = function () {
+          receiver.close();
+        }
+      return {
+        execute: execute,
+        undo: undo
+      }
+    }
+
+    var setCommond = function (commond) {
+      document.getElementById('execute').onclick = commond.execute;
+      document.getElementById('undo').onclick = commond.undo;
+    }
+
+    setCommond(createCommand(Tv));
+  </script>
+</body>
+
+</html>

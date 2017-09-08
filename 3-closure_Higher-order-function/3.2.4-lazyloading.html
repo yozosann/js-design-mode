@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="div1">click me</div>
+  <script>
+    var addEvent = function (elem, type, handler) {
+      if (window.addEventListener) {
+        addEvent = function (elem, type, handler) {
+          elem.addEventListener(type, handler, false);
+        }
+      } else if (window.attachEvent) {
+        addEvent = function (elem, type, handler) {
+          elem.attachEvent('on' + type, handler);
+        }
+      }
+
+      addEvent(elem, type, handler);
+    }
+
+    var div = document.getElementById('div1');
+
+    console.log(addEvent);
+    addEvent(div, 'click', function () {
+      console.log(1);
+    })
+    console.log(addEvent);
+  </script>
+</body>
+
+</html>
