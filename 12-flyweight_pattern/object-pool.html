@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var objectPoolFactory = function (createObjFn) {
+      var objectPool = [];
+      return {
+        create: function () {
+          var obj = objectPool.length === 0 ?
+            createObjFn.apply(this, arguments) : objectPool.shift();
+
+          return obj;
+        },
+        recover: function (obj) {
+          objectPool.push(obj);
+        },
+        getLength() {
+          console.log(objectPool.length);
+        }
+      }
+    };
+
+    function createDiv(str) {
+      var div = document.createElement('div');
+      div.innerHTML = str;
+      document.body.appendChild(div);
+      return div;
+    }
+
+    var divPoolFactory = objectPoolFactory(createDiv);
+
+    // 当不使用的时候，进行ary清空
+    var aryObj = (function () {
+      var ary = [];
+      return {
+        push: function (obj) {
+          ary.push(obj);
+        },
+        recover: function () {
+          for (var i = 0, obj; obj = ary[i++];) {
+            divPoolFactory.recover(obj);
+          }
+        }
+      }
+    })()
+
+
+    for (var i = 0, str; str = ['a', 'b'][i++];) {
+      var toolTip = divPoolFactory.create(str);
+      aryObj.push(toolTip);
+    }
+  </script>
+</body>
+
+</html>

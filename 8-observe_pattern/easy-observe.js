@@ -14,6 +14,7 @@ var Event = (function () {
   remove = function (key, fn) {
     var fns = cacheList[key];
     if (!fns) return false;
+    // 如果只传了key 代表取消该key下所有客户
     if (!fn) {
       fns && (fns.length = 0);
     } else {
